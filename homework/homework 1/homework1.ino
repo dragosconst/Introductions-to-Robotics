@@ -38,9 +38,9 @@ int readPot(int which) {
 }
 
 void writeLed(int which, int analogValue) {
-  int convertedValue = map(analogValue, 0, 1023, 0, 255); // analogValue is the raw given by the potentiometer
+  int convertedValue = map(analogValue, 0, 1023, 0, 255); // analogValue is the raw val given by the potentiometer
   if(which == redValue) {
-    analogWrite(ledRedPin, convertedValue); // maybe lower red values by defauly? red is way too strong, compared to the others
+    analogWrite(ledRedPin, convertedValue); // maybe lower red values by default? red is way too strong, compared to the others
   }
   else if (which == greenValue) {
     analogWrite(ledGreenPin, convertedValue);
