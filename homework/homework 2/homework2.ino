@@ -34,11 +34,10 @@ bool greenState = HIGH; // the state of the pedestrian green light
 
 const unsigned long screechInterval = 300;
 const unsigned long pauseInterval = 200;
-const unsigned long longScreechInterval = 900; // long screeches are for the first 3 seconds of the sempahore
-const unsigned long longPauseInterval = 300;
+const unsigned long longPauseInterval = 900;
 unsigned long lastScreech = 0;
 bool screechState = LOW;
-const unsigned long screechFrequency = 750;
+const unsigned long screechFrequency = 200;
 
 bool buttonState = HIGH;
 bool previousState = HIGH;
@@ -121,8 +120,8 @@ void handleLeds() { // handling led states, depending on the system's state
 }
 
 void makeSounds() {
-  if(currentState == stateThree) { // this state will have longer screeches
-    if(!screechState && millis() - lastScreech >= longScreechInterval) { // LOW screechState means it should be screeching and HIGH means it should not be
+  if(currentState == stateThree) { // this state will have longer pauses
+    if(!screechState && millis() - lastScreech >= screechInterval) { // LOW screechState means it should be screeching and HIGH means it should not be
       lastScreech = millis();
       noTone(audioPin);
       screechState = !screechState;
