@@ -23,9 +23,10 @@ int currentState = stateOne;
 */
 
 unsigned long lastSemChange = 0;
-const unsigned long semInterval = 10000; // 10 seconds between green and red for pedestrians
+const unsigned long pedestrianInterval = 10000; // 10 seconds between green and red for pedestrians
 const unsigned long pushInterval = 10000; // 10 seconds to change light after button press
-const unsigned long semYellow = 3000; // 3 seconds left when it switches to yellow (or start emitting a sound if it's green for pedestrians + the green LED starts flashing)
+const unsigned long yellowInterval = 3000; // 3 seconds when it switches to yellow
+const unsigned long flashingInterval = 5000; // 5 seconds for fast flashses
 
 unsigned long lastFlash = 0;
 const unsigned long flashInterval = 200; // interval at which the green semaphore flashes for pedestrians
@@ -81,15 +82,7 @@ bool buttonPushed(int reading, int previousReading) { // function to check if th
 }
 
 void handleLeds() { // handling led states, depending on the system's state
-  if(currentState == stateOne) {
-    digitalWrite(redCarPin, LOW);
-    digitalWrite(yellowCarPin, LOW);
-    digitalWrite(greenCarPin, HIGH);
-
-    digitalWrite(redPedPin, HIGH);
-    digitalWrite(greenPedPin, LOW);
-  }
-  else if(currentState == waitForButtonPress) {
+  if(currentState == stateOne || currentState == waitForButtonPress) {
     digitalWrite(redCarPin, LOW);
     digitalWrite(yellowCarPin, LOW);
     digitalWrite(greenCarPin, HIGH);
@@ -128,8 +121,8 @@ void handleLeds() { // handling led states, depending on the system's state
 }
 
 void makeSounds() {
-  if(currentState == stateThree) {
-    if(!screechState && millis() - lastScreech >= longScreechInterval) {
+  if(currentState == stateThree) { // this state will have longer screeches
+    if(!screechState && millis() - lastScreech >= longScreechInterval) { // LOW screechState means it should be screeching and HIGH means it should not be
       lastScreech = millis();
       noTone(audioPin);
       screechState = !screechState;
@@ -147,7 +140,7 @@ void makeSounds() {
       noTone(audioPin);
     }
   }
-  else if(currentState == stateFour) {
+  else if(currentState == stateFour) { // shorter, more often screeches in this state
     if(!screechState && millis() - lastScreech >= screechInterval) {
       lastScreech = millis();
       noTone(audioPin);
@@ -167,7 +160,7 @@ void makeSounds() {
     }
   }
   else {
-    noTone(audioPin);
+    noTone(audioPin); // just making sure it shuts up in any other state
   }
 }
 
@@ -186,17 +179,17 @@ void loop() {
     lastSemChange = millis();
   }
 
-  if(currentState == stateTwo && millis() - lastSemChange >= semYellow) {
+  if(currentState == stateTwo && millis() - lastSemChange >= yellowInterval) {
     currentState = stateThree;
     lastSemChange = millis();
   }
 
-  if(currentState == stateThree && millis() - lastSemChange >= semInterval) {
+  if(currentState == stateThree && millis() - lastSemChange >= pedestrianInterval) {
     currentState = stateFour;
     lastSemChange = millis();
   }
 
-  if(currentState == stateFour && millis() - lastSemChange >= semYellow) {
+  if(currentState == stateFour && millis() - lastSemChange >= flashingInterval) {
     currentState = stateOne;
     lastSemChange = millis();
   }
