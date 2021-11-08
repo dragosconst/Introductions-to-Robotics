@@ -1,5 +1,4 @@
 const int sampleSize = 500;
-int antennaInputs[sampleSize];
 
 
 const int pinBuzz = 10;
@@ -28,7 +27,6 @@ const int pinDP = 9;
 const int segSize = 8;
 const int noOfDigits = 10;
 bool dpState = LOW;
-bool state = HIGH;
 
 
 bool digitMatrix[noOfDigits][segSize - 1] = {
@@ -67,14 +65,14 @@ void setup() {
   Serial.begin(9600);
 }
 
-void playAtIntervals(int detection) {
-  if(!screechState && millis() - lastBuzz >= normalInterval - detection * buzzStep) {
+void playAtIntervals(int score) {
+  if(!screechState && millis() - lastBuzz >= normalInterval - score * buzzStep) {
     lastBuzz = millis();
     screechState = HIGH;
-    tone(pinBuzz, baseFrequency + detection * freqStep);
+    tone(pinBuzz, baseFrequency + score * freqStep);
   }
   else if(screechState && millis() - lastBuzz < playInterval){
-    tone(pinBuzz, baseFrequency + detection * freqStep);
+    tone(pinBuzz, baseFrequency + score * freqStep);
   }
   else if(screechState && millis() - lastBuzz >= playInterval) {
     noTone(pinBuzz);
@@ -87,13 +85,12 @@ void loop() {
   // put your main code here, to run repeatedly:
   long inputsSummed = 0;
   for(int i = 0; i < sampleSize; ++i) {
-    antennaInputs[i] = analogRead(pinGhost);
-    inputsSummed += antennaInputs[i];
+    int currentInput = analogRead(pinGhost);
+    inputsSummed += currentInput;
   }
 
   int averageInput = inputsSummed / sampleSize;
   averageInput = constrain(averageInput, 0, 100);
-  Serial.println(averageInput);
   averageInput = map(averageInput, 0, 100, 0, 9);
 
   playAtIntervals(averageInput);
