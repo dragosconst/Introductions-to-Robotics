@@ -1,5 +1,5 @@
 # Introduction to Robotics
-Repo for the "Introduction to Robotics" optional course, from the Faculty of Mathematics and Informatics, University of Bucharest.
+Repo for the "Introduction to Robotics" optional course, from the Faculty of Mathematics and Computer Science, University of Bucharest.
 <details>
   <summary><h2>Homework 0</h2></summary>
 I installed the Arduino IDE and I set up the repo (and subsequently translated it to English).
