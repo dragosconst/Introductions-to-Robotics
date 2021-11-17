@@ -130,7 +130,7 @@ void showDigits(bool flash) {
         writeReg(digitArray[currentDigit]);
       }
     }
-    delay(5);// maybe not needed?
+    delay(3);
   }
 }
 
