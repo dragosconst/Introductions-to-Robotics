@@ -1,4 +1,3 @@
-// Define Connections to 74HC595
 #include <EEPROM.h>
 
 // system states, it's either moving the digit around, or changing a number value
@@ -85,10 +84,7 @@ void setup() {
     digitalWrite(displayDigits[i], LOW);
   }
 
-  /**
-  * Read from the EEPROM. I have written 0 on the first 5 addresses, before doing any debugging, so that
-  * the read always works as intended.
-  */
+  // wrote 0 on first 5 addresses before starting the project, this won't work as intended otherwise (at least the first time running it)
   for(int i = 0; i < 4; ++i)
   {
     int digit = EEPROM.read(i);
