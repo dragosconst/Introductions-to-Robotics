@@ -46,3 +46,21 @@ Notes: used 3 1M resistors in series for the copper cable, and a 330 one for the
   
 Video: https://youtu.be/nXa_zPxSuCU
 </details>
+
+<h2>Homework 4</h2>
+<details>
+  <summary></summary>
+ Requirements: "The current homework  involves  using  a  joystick  in  setting  the  values  on  each  digit  of  a  4-digit7-segment display connected to a shift register 74hc595.  For maximum grade, you muse use interrupts, and for bonus you can save the last value in eeprom."
+  
+  
+Pictures:
+  
+ ![image](https://user-images.githubusercontent.com/38582034/142287051-a2a9e0a5-13b8-4b34-9eaf-037100e0bd1c.png)
+![image](https://user-images.githubusercontent.com/38582034/142287067-c00c93df-fef2-4201-b76b-3b8c044e3d9d.png)
+![image](https://user-images.githubusercontent.com/38582034/142287083-945ec309-520e-4d32-8fbf-dd075c55bede.png)
+
+  
+Video: https://youtu.be/QOlsbrCwmeI
+  
+Notes: I'm not sure what's causing this, but for some reason, if I set the interrupt on FALLING, it will detect it at least twice per button push (sometimes even more). It seems to be some form of noise, I managed to circumvent this by attaching the interrupt to LOW and only really using it when the previous value was HIGH (and just showing the numbers on the display in the other case).
+</details>
