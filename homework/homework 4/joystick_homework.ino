@@ -136,7 +136,6 @@ void showDigits(bool flash) {
 
 void switchToDecimal() {
   if(!fallen) {
-    Serial.println("bruh");
     if(currentState != STATE_DP) {
       currentState = STATE_DP;
     }
